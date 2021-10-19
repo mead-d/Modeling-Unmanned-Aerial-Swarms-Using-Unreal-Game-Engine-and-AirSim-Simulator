@@ -1,0 +1,9 @@
+Sections 7 and 8
+
+7.	Assumptions
+•	Assumed no malicious actors
+•	Assumed AirSim running without error
+•	Assumed Unreal running without error
+
+8.	Risks and Contingencies
+One risk is data corruption. As the simulation can take pictures and data measurements during the simulation and save them to the host computer, there could be risk of losing this data in the event of an unexpected shutdown of the simulation. The contingency for this risk is to save the data to a more permanent location once received by ground station during the simulation.
