@@ -1,0 +1,38 @@
+{
+  "SettingsVersion": 1.2,
+  "SimMode": "Multirotor",
+  "ClockSpeed": 1,
+  "Vehicles": {
+    "Drone1": {
+      "VehicleType": "SimpleFlight",
+      "X": 4,
+      "Y": 0,
+      "Z": -2,
+      "Yaw": -180
+            "MyDistance1": {
+                "SensorType": 5,
+                "Enabled" : true,
+                "NumberOfChannels": 4,
+                "PointsPerSecond": 10000,
+                "X": 0, "Y": 0, "Z": 0,
+                "Yaw": 0, "Pitch": 0, "Roll": 0,
+                "DrawDebugPoints": true
+            }
+        }
+    }
+    "Drone2": {
+      "VehicleType": "SimpleFlight",
+      "X": 8,
+      "Y": 0,
+      "Z": -2
+            "MyDistance2": {
+                "SensorType": 5,
+                "Enabled" : true,
+                "NumberOfChannels": 4,
+                "PointsPerSecond": 10000,
+                "X": 0, "Y": 0, "Z": 0,
+                "Yaw": 0, "Pitch": 0, "Roll": 0,
+                "DrawDebugPoints": true
+            }
+        }
+    }

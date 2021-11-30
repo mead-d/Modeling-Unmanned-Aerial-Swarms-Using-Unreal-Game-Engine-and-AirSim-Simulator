@@ -1,0 +1,20 @@
+Hey fellahs, this is just some quick notes on what I got:
+
+-For the sensor settings in settings.json, to change the orientation
+ of the sensor, we have to edit the the "yaw", "pitch" and "roll",
+ not the x y and z like I originally thought
+
+-changed getVehiclePose to getMultirotorStatus
+
+-added if-else to check if sensor is detecting distance
+
+Here are some sources I have utilized while making this:
+ 
+simGetVehiclePose information
+https://github.com/microsoft/AirSim/issues/1956
+
+Basic Sensor Information
+https://microsoft.github.io/AirSim/sensors/
+
+Api Information - contains bit of info on getMultirotorState()
+https://readthedocs.org/projects/airsim-fork/downloads/pdf/docs/
