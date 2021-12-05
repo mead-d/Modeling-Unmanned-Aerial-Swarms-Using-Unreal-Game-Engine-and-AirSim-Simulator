@@ -3,6 +3,7 @@
 import airsim
 import math
 
+
 # assumptions: swarm finished moving to object - swarm consists of 3 drone
 # Orient drone pair (2) at bottom of object at closest end along one dimension. (ex: y1 = y2, z1 = z2, x1 = 0 x2 = 10)
 
@@ -100,27 +101,26 @@ class objectMeasurement:
     # utilizing distance sensors and distance formula
     @staticmethod
     def getSlice(drone1,drone2):
-
-	    d1_pos = drone1.getMultirotorState().kinematics_estimated.position
-	    d2_pos = drone2.getMultirotorState().kinematics_estimated.position
-
-	    d1_x = d1_pos.x_val
-	    d1_y = d1_pos.y_val
-	    d1_z = d1_pos.z_val
-
-	    d2_x = d2_pos.x_val
-	    d2_y = d2_pos.y_val
-	    d2_z = d2_pos.z_val
-
+        
+        d1_pos = drone1.getMultirotorState().kinematics_estimated.position
+        d2_pos = drone2.getMultirotorState().kinematics_estimated.position
+        
+        d1_x = d1_pos.x_val
+        d1_y = d1_pos.y_val
+        d1_z = d1_pos.z_val
+        
+        d2_x = d2_pos.x_val
+        d2_y = d2_pos.y_val
+        d2_z = d2_pos.z_val
+        
         # distance between drone pair
-	    totalDistance = sqrt((d2_x - d1_x)**2 + (d2_y - d1_y)**2 + (d2_z - d1_z)**2)
-
-	    dSensor1 = getDistanceSensorData(distance_sensor_name = "MyDistance1", vehicle_name = "Drone1")
-	    dSensor2 = getDistanceSensorData(distance_sensor_name = "MyDistance2", vehicle_name = "Drone2")
-	    
+        totalDistance = sqrt((d2_x - d1_x)**2 + (d2_y - d1_y)**2 + (d2_z - d1_z)**2)
+        
+        dSensor1 = getDistanceSensorData(distance_sensor_name = "MyDistance1", vehicle_name = "Drone1")
+        dSensor2 = getDistanceSensorData(distance_sensor_name = "MyDistance2", vehicle_name = "Drone2")
+        
         slice = totalDistance - dSensor1 - dSensor2
-
-	    if slice < 0:
-		    slice = 0
-
-	    return slice
+        
+        if slice < 0:
+            slice = 0
+            return slice

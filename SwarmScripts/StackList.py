@@ -3,7 +3,7 @@
 class StackList:
     size = 0
 
-    def__init__(self):
+    def __init__(self):
         self.head = self.tail = None
 
     def push(self, val):
@@ -37,9 +37,9 @@ class StackList:
         while cur is not None:
             print(cur.val, end = ' ')
             cur = cur.next
-
+            
 class Node:
-    def__init__(self, data):
+    def __init__(self, data):
         self.data = data
         self.next = None
         self.prev = None
