@@ -9,7 +9,7 @@
       "Y": 0,
       "Z": -2,
       "Yaw": -180
-            "MyDistance1": {
+            ,"MyDistance1": {
                 "SensorType": 5,
                 "Enabled" : true,
                 "NumberOfChannels": 4,
@@ -18,14 +18,13 @@
                 "Yaw": 0, "Pitch": 0, "Roll": 0,
                 "DrawDebugPoints": true
             }
-        }
-    }
+        },
     "Drone2": {
       "VehicleType": "SimpleFlight",
       "X": 8,
       "Y": 0,
       "Z": -2
-            "MyDistance2": {
+            ,"MyDistance2": {
                 "SensorType": 5,
                 "Enabled" : true,
                 "NumberOfChannels": 4,
@@ -36,3 +35,4 @@
             }
         }
     }
+  }
