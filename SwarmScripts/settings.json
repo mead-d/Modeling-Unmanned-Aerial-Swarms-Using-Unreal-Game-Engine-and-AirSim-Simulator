@@ -3,19 +3,59 @@
   "SimMode": "Multirotor",
   "ClockSpeed": 1,
   "Vehicles": {
+    "Lead": {
+      "VehicleType": "SimpleFlight",
+      "X": 0,
+      "Y": 0,
+      "Z": -2
+    },
     "Drone1": {
       "VehicleType": "SimpleFlight",
       "X": 4,
       "Y": 0,
-      "Z": -2,
-      "Yaw": -180
+      "Z": -2
     },
     "Drone2": {
       "VehicleType": "SimpleFlight",
-      "X": 8,
+      "X": -4,
       "Y": 0,
       "Z": -2
+    },
+    "Drone3": {
+      "VehicleType": "SimpleFlight",
+      "X": 0,
+      "Y": 4,
+      "Z": -2
+    },
+    "Drone4": {
+      "VehicleType": "SimpleFlight",
+      "X": 0,
+      "Y": -4,
+      "Z": -2
+    },
+    "Drone5": {
+      "VehicleType": "SimpleFlight",
+      "X": 2,
+      "Y": 2,
+      "Z": -2
+    },
+    "Drone6": {
+      "VehicleType": "SimpleFlight",
+      "X": 2,
+      "Y": -2,
+      "Z": -2
+    },
+    "Drone7": {
+      "VehicleType": "SimpleFlight",
+      "X": -2,
+      "Y": 2,
+      "Z": -2
+    },
+    "Drone8": {
+      "VehicleType": "SimpleFlight",
+      "X": -2,
+      "Y": -2,
+      "Z": -2
     }
-
   }
 }
