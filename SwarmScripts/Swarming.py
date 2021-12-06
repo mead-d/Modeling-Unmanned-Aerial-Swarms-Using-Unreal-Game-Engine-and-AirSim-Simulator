@@ -5,6 +5,7 @@ import sys
 import time
 import random
 import math
+import objectMeasurement as om
 
 # connect to the AirSim simulator
 client = airsim.MultirotorClient()
@@ -29,17 +30,17 @@ if d == 2:
     f2.join()
     f3.join()
 
-    f1 = client.moveToZAsync(-50, 5,vehicle_name="Lead")
-    f2 = client.moveToZAsync(-50, 5,vehicle_name="Drone1")
-    f3 = client.moveToZAsync(-50, 5,vehicle_name="Drone2")
+    f1 = client.moveToZAsync(-10, 5,vehicle_name="Lead")
+    f2 = client.moveToZAsync(-10, 5,vehicle_name="Drone1")
+    f3 = client.moveToZAsync(-10, 5,vehicle_name="Drone2")
     f1.join()
     f2.join()
     f3.join()
 
     airsim.wait_key('Press any key to begin drone movement')
-    z = 50
-    x = 50
-    y = 50
+    z = 10
+    x = 10
+    y = 10
     r = 4
     client.moveToPositionAsync(x, y, -z, 3, vehicle_name="Lead")
     kinematics = client.getMultirotorState(vehicle_name="Lead").kinematics_estimated.position
@@ -658,6 +659,7 @@ if d == 8:
     x = 50
     y = 50
     r = 4
+    h = 0.5237 #h/2 constant
     a = math.sin((109.5*math.pi/180))*math.sin(math.pi/6)
     b = math.sin((109.5*math.pi/180))*math.cos(math.pi/6)
     client.moveToPositionAsync(x, y, -z, 3, vehicle_name="Lead")
