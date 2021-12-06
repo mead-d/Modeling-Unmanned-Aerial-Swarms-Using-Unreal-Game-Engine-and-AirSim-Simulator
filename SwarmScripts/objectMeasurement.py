@@ -1,40 +1,61 @@
-# Written by Dillon Mead
+# Written by Dillon Mead -----------------------------------------------------------------------------------------------------------------------------------
 
 import airsim
 import math
+import numpy
 
 
-# assumptions: swarm finished moving to object - swarm consists of 3 drone
-# Orient drone pair (2) at bottom of object at closest end along one dimension. (ex: y1 = y2, z1 = z2, x1 = 0 x2 = 10)
+# assumptions: swarm finished moving to object - swarm consists of 3+ drone
+# Orient drone pair at bottom of object at closest end along one dimension. (ex: y1 = y2, z1 = z2, x1 = 0 x2 = 10)
 
 class objectMeasurement:
 
     def measureVol():
-        # define volume
-        volume = 0
 
-        # create stack for each horizontal pass
+        # create stack for each horizontal collection and final vertical integration
         sliceStack = StackList()
+        vertStack = StackList()
 
         # loop drone pair for height of object. 
         while(True):
-            # loop drone pair for length of object.
-            # add slice values to stack for each horizontal plane
+            # add slice values for each horizontal plane to stack
 
-            # retreive current drone coordinates
+            # set access to drone state
             state1 = client.getMultirotorState(vehicle_name = 'Drone1')
             state2 = client.getMultirotorState(vehicle_name = 'Drone2')
 
-            x1 = state1.kinematics_estimated.position.x_val
-            y1 = state1.kinematics_estimated.position.y_val
-            z1 = state1.kinematics_estimated.position.z_val
-
-            x2 = state2.kinematics_estimated.position.x_val
-            y2 = state2.kinematics_estimated.position.y_val
-            z2 = state2.kinematics_estimated.position.z_val
-
-            while(True):
+            # set up data history for inner loop break statement (first 7 slices of horizontal)
+            for i in range(7):
+                # measure before movement.
                 sliceStack.push(getSlice())
+
+                # retreive current drone coordinates
+                x1 = state1.kinematics_estimated.position.x_val
+                y1 = state1.kinematics_estimated.position.y_val
+                z1 = state1.kinematics_estimated.position.z_val
+
+                x2 = state2.kinematics_estimated.position.x_val
+                y2 = state2.kinematics_estimated.position.y_val
+                z2 = state2.kinematics_estimated.position.z_val
+
+                # move drone pair for next slice
+                f1 = client.moveToPositionAsync(x1 +1, y1, -z1, 2, vehicle_name = 'Drone1')
+                f2 = client.moveToPositionAsync(x2 +1, y2, -z2, 2, vehicle_name = 'Drone2') 
+
+            # loop drone pair for remaining length of object.
+            while(True):
+                # measure before movement.
+                sliceStack.push(getSlice())
+
+                # retreive current drone coordinates
+                x1 = state1.kinematics_estimated.position.x_val
+                y1 = state1.kinematics_estimated.position.y_val
+                z1 = state1.kinematics_estimated.position.z_val
+
+                x2 = state2.kinematics_estimated.position.x_val
+                y2 = state2.kinematics_estimated.position.y_val
+                z2 = state2.kinematics_estimated.position.z_val
+
                 # move drone pair for next slice
                 f1 = client.moveToPositionAsync(x1 +1, y1, -z1, 2, vehicle_name = 'Drone1')
                 f2 = client.moveToPositionAsync(x2 +1, y2, -z2, 2, vehicle_name = 'Drone2')
@@ -58,13 +79,13 @@ class objectMeasurement:
             f1 = client.moveToPositionAsync(x1, y1 +1, z1, 2, vehicle_name = 'Drone1')
             f2 = client.moveToPositionAsync(x2, y2 +1, z2, 2, vehicle_name = 'Drone2')
 
+            # add integrated horizontal slice to vertical stack
+            vertStack.push(integrate1D(sliceStack))
+
             # exit test evaluates sum of stack content. if <= 0, exit
-            if(volumeSum(sliceStack) <= 0): break
+            if(vertStack.top() <= 0): break
 
-            # sum stack and add to volume
-            volume += volumeSum(sliceStack)
-
-        return volume
+        return integrate1D(vertStack)
 
     # horizontal movement end check
     @staticmethod
@@ -85,18 +106,26 @@ class objectMeasurement:
 
         return val1+val2+val3+val4+val5
 
-    # sum function for stack
+    # integration with numpy trapezoidal for single dimension using stack as input.
     @staticmethod
-    def volumeSum(sliceStack):
-        volume = 0
+    def integrate1D(stack):
+        # instantiate array
+        arr = [0.0]
+        # overwrite single item with top of stack
+        arr[0] = stack.pop()
 
-        for i in range(sliceStack.getSize()):
-            volume += sliceStack.pop()
-        return volume
+        # convert stack(data) into array(data) for integration
+        for i in range(stack.getSize()):
+            arr.append(stack.pop())
 
-    # End writing by Dillon Mead
+        # integrate over array and return
+        return numpy.trapz(arr)
 
-    # Written by John Mueller - edited by Dillon Mead
+    # End writing by Dillon Mead ---------------------------------------------------------------------------------------------------------------------------
+
+
+
+    # Written by John Mueller - edited by Dillon Mead ------------------------------------------------------------------------------------------------------
     # function to get slice of object being measured 
     # utilizing distance sensors and distance formula
     @staticmethod
