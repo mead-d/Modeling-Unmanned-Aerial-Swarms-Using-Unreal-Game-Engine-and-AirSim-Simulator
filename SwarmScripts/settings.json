@@ -7,55 +7,154 @@
       "VehicleType": "SimpleFlight",
       "X": 0,
       "Y": 0,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistanceLead": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone1": {
       "VehicleType": "SimpleFlight",
       "X": 4,
       "Y": 0,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance1": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone2": {
       "VehicleType": "SimpleFlight",
       "X": -4,
       "Y": 0,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance2": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone3": {
       "VehicleType": "SimpleFlight",
       "X": 0,
       "Y": 4,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance3": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone4": {
       "VehicleType": "SimpleFlight",
       "X": 0,
       "Y": -4,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance4": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone5": {
       "VehicleType": "SimpleFlight",
       "X": 2,
       "Y": 2,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance5": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone6": {
       "VehicleType": "SimpleFlight",
       "X": 2,
       "Y": -2,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance6": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone7": {
       "VehicleType": "SimpleFlight",
       "X": -2,
       "Y": 2,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance7": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     },
     "Drone8": {
       "VehicleType": "SimpleFlight",
       "X": -2,
       "Y": -2,
-      "Z": -2
+      "Z": -2,
+      "Sensors":{
+        "MyDistance8": {
+          "SensorType": 5,
+          "Enabled" : true,
+          "NumberOfChannels": 4,
+          "PointsPerSecond": 10000,
+          "X": 0, "Y": 0, "Z": 0,
+          "Yaw": 0, "Pitch": 0, "Roll": 0,
+          "DrawDebugPoints": true
+        }
+      }
     }
   }
 }
