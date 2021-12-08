@@ -12,6 +12,12 @@ class objectMeasurement:
 
     def measureVol():
 
+        # drone movement variables
+        velocity = 1.0
+        x_mov = 0.2
+        y_mov = 0.2
+        z_mov = 0.0
+
         # create stack for each horizontal collection and final vertical integration
         sliceStack = StackList()
         vertStack = StackList()
@@ -25,7 +31,7 @@ class objectMeasurement:
             state2 = client.getMultirotorState(vehicle_name = 'Drone2')
 
             # set up data history for inner loop break statement (first 7 slices of horizontal)
-            for i in range(7):
+            for i in range(10):
                 # measure before movement.
                 sliceStack.push(getSlice())
 
@@ -39,8 +45,8 @@ class objectMeasurement:
                 z2 = state2.kinematics_estimated.position.z_val
 
                 # move drone pair for next slice
-                f1 = client.moveToPositionAsync(x1 +1, y1, -z1, 2, vehicle_name = 'Drone1')
-                f2 = client.moveToPositionAsync(x2 +1, y2, -z2, 2, vehicle_name = 'Drone2') 
+                f1 = client.moveToPositionAsync(x1 +x_mov, y1, -z1, velocity, vehicle_name = 'Drone1')
+                f2 = client.moveToPositionAsync(x2 +x_mov, y2, -z2, velocity, vehicle_name = 'Drone2') 
 
             # loop drone pair for remaining length of object.
             while(True):
@@ -57,8 +63,8 @@ class objectMeasurement:
                 z2 = state2.kinematics_estimated.position.z_val
 
                 # move drone pair for next slice
-                f1 = client.moveToPositionAsync(x1 +1, y1, -z1, 2, vehicle_name = 'Drone1')
-                f2 = client.moveToPositionAsync(x2 +1, y2, -z2, 2, vehicle_name = 'Drone2')
+                f1 = client.moveToPositionAsync(x1 +x_mov, y1, -z1, velocity, vehicle_name = 'Drone1')
+                f2 = client.moveToPositionAsync(x2 +x_mov, y2, -z2, velocity, vehicle_name = 'Drone2')
 
                 # exit test evaluates last 5 stack indeces. if <= 0, exit
                 if(horzCheck(sliceStack) <= 0): break
@@ -76,8 +82,8 @@ class objectMeasurement:
             z2 = state2.kinematics_estimated.position.z_val
             
             # move drone pair vertically
-            f1 = client.moveToPositionAsync(x1, y1 +1, z1, 2, vehicle_name = 'Drone1')
-            f2 = client.moveToPositionAsync(x2, y2 +1, z2, 2, vehicle_name = 'Drone2')
+            f1 = client.moveToPositionAsync(x1, y1 +y_mov, z1, velocity, vehicle_name = 'Drone1')
+            f2 = client.moveToPositionAsync(x2, y2 +y_mov, z2, velocity, vehicle_name = 'Drone2')
 
             # add integrated horizontal slice to vertical stack
             vertStack.push(integrate1D(sliceStack))
@@ -95,16 +101,14 @@ class objectMeasurement:
         val2 = sliceStack.pop()
         val3 = sliceStack.pop()
         val4 = sliceStack.pop()
-        val5 = sliceStack.pop()
 
         # push to maintain stack integrity
         sliceStack.push(val1)
         sliceStack.push(val2)
         sliceStack.push(val3)
         sliceStack.push(val4)
-        sliceStack.push(val5)
 
-        return val1+val2+val3+val4+val5
+        return val1+val2+val3+val4
 
     # integration with numpy trapezoidal for single dimension using stack as input.
     @staticmethod
