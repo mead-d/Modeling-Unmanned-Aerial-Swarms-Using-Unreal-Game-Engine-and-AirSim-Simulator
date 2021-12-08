@@ -5,6 +5,7 @@ import sys
 import time
 import random
 import math
+import objectMeasurement as obM
 
 client = airsim.MultirotorClient()
 client.confirmConnection()
@@ -65,3 +66,5 @@ f2.join()
 time.sleep(5)
 client.rotateToYawAsync(90,vehicle_name="Drone1")
 client.rotateToYawAsync(-90,vehicle_name="Drone1")
+volu = obM.measureVol()
+print(volu)

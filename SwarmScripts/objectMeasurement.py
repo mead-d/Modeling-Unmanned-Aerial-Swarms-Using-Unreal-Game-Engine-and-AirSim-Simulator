@@ -9,6 +9,8 @@ import numpy
 # Orient drone pair at bottom of object at closest end along one dimension. (ex: y1 = y2, z1 = z2, x1 = 0 x2 = 10)
 
 class objectMeasurement:
+    def __init__(self):
+        return super().__init__()
 
     def measureVol():
 
