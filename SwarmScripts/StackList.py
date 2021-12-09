@@ -22,13 +22,16 @@ class StackList:
 
     # removes top(tail) of stack. decrements size by one
     def pop(self):
-        item = self.data
-        self.prev.next = None
-        self.prev = None
-        self.prev = self.tail
-        self.size -= 1
+        if (self is not None):
+            item = self.data
+            self.prev = self.tail
+            self.prev.next = None
+            self.prev = None
+            self.size -= 1
 
-        return item
+            return item
+        else:
+            return 0 # if node is null
     
     # returns the value of the top node
     def top(self):
