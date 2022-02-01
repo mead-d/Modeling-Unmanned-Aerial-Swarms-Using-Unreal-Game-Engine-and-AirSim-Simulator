@@ -332,7 +332,7 @@ if d == 5:
     f5.join()
     time.sleep(5)
     client.moveToPositionAsync(x, y, -z, 2, vehicle_name="Lead")
-    kinematics = client.getMultirotorState(vehicle_name="Lead").kinematics_estimated.position
+    kinematics = client.simGetGroundTruthKinematics(vehicle_name = "Lead")
     while True:
         kinematics = client.simGetGroundTruthKinematics(vehicle_name="Lead")
         client.moveToPositionAsync(((kinematics.position.x_val)+(4)), (kinematics.position.y_val)-r, (kinematics.position.z_val), 2.1, vehicle_name="Drone1")
@@ -584,17 +584,17 @@ if d == 7:
     a = math.sin((109.5*math.pi/180))*math.sin(math.pi/6)
     b = math.sin((109.5*math.pi/180))*math.cos(math.pi/6)
     client.moveToPositionAsync(x, y, -z, 3, vehicle_name="Lead")
-    kinematics = client.getMultirotorState(vehicle_name="Lead").kinematics_estimated.position
+    kinematics = client.simGetGroundTruthKinematics(vehicle_name = "Lead")
     while True:
-        kinematics = client.getMultirotorState(vehicle_name="Lead").kinematics_estimated.position
-        client.moveToPositionAsync((kinematics.x_val)+r, (kinematics.y_val)-r, -(z), 3.25, vehicle_name="Drone1")
-        client.moveToPositionAsync((kinematics.x_val)+r*math.cos((72*math.pi/180)), (kinematics.y_val+r*math.sin((72*math.pi/180)))+r, -(z), 3.25, vehicle_name="Drone2")
-        client.moveToPositionAsync(((kinematics.x_val)-r*math.cos((36*math.pi/180)))-r, kinematics.y_val+r*math.sin((36*math.pi/180)), -(z), 3.25, vehicle_name="Drone3")
-        client.moveToPositionAsync((kinematics.x_val)+r, kinematics.y_val, -(z+r), 3.25, vehicle_name="Drone4")
-        client.moveToPositionAsync(((kinematics.x_val)+r*math.cos((72*math.pi/180)))-r, (kinematics.y_val-r*math.sin((72*math.pi/180)))-r, -(z), 3.25, vehicle_name="Drone5")
-        client.moveToPositionAsync(((kinematics.x_val)-r*math.cos((36*math.pi/180)))+r, (kinematics.y_val-r*math.sin((36*math.pi/180)))-r, -(z), 3.25, vehicle_name="Drone6")
-        client.moveToPositionAsync((kinematics.x_val)-r, (kinematics.y_val)+r, -(z-r), 3.25, vehicle_name="Drone7")
-        if ((abs(abs(kinematics.x_val)-abs(x)) < 3) and (abs(abs(kinematics.y_val)-abs(y)) < 3)):
+        kinematics = client.simGetGroundTruthKinematics(vehicle_name = "Lead")
+        client.moveToPositionAsync((kinematics.position.x_val)+r, (kinematics.position.y_val)-r, (kinematics.position.z_val), 3.25, vehicle_name="Drone1")
+        client.moveToPositionAsync((kinematics.position.x_val)+r*math.cos((72*math.pi/180)), (kinematics.position.y_val+r*math.sin((72*math.pi/180)))+r, (kinematics.position.z_val), 3.25, vehicle_name="Drone2")
+        client.moveToPositionAsync(((kinematics.position.x_val)-r*math.cos((36*math.pi/180)))-r, kinematics.position.y_val+r*math.sin((36*math.pi/180)), (kinematics.position.z_val), 3.25, vehicle_name="Drone3")
+        client.moveToPositionAsync((kinematics.position.x_val)+r, kinematics.position.y_val, (kinematics.position.z_val+r), 3.25, vehicle_name="Drone4")
+        client.moveToPositionAsync(((kinematics.position.x_val)+r*math.cos((72*math.pi/180)))-r, (kinematics.position.y_val-r*math.sin((72*math.pi/180)))-r, (kinematics.position.z_val), 3.25, vehicle_name="Drone5")
+        client.moveToPositionAsync(((kinematics.position.x_val)-r*math.cos((36*math.pi/180)))+r, (kinematics.position.y_val-r*math.sin((36*math.pi/180)))-r, (kinematics.position.z_val), 3.25, vehicle_name="Drone6")
+        client.moveToPositionAsync((kinematics.position.x_val)-r, (kinematics.position.y_val)+r, (kinematics.position.z_val-r), 3.25, vehicle_name="Drone7")
+        if ((abs(abs(kinematics.position.x_val)-abs(x)) < 3) and (abs(abs(kinematics.position.y_val)-abs(y)) < 3)):
             print("hit break")
             break
         time.sleep(0.1)
@@ -721,18 +721,18 @@ if d == 8:
     a = math.sin((109.5*math.pi/180))*math.sin(math.pi/6)
     b = math.sin((109.5*math.pi/180))*math.cos(math.pi/6)
     client.moveToPositionAsync(x, y, -z, 3, vehicle_name="Lead")
-    kinematics = client.getMultirotorState(vehicle_name="Lead").kinematics_estimated.position
+    kinematics = client.simGetGroundTruthKinematics(vehicle_name = "Lead")
     while True:
-        kinematics = client.getMultirotorState(vehicle_name="Lead").kinematics_estimated.position
-        client.moveToPositionAsync((kinematics.x_val)+r*a*(math.sqrt(2))/2, kinematics.y_val-r, -(z+r*h), 3.25, vehicle_name="Drone1")
-        client.moveToPositionAsync((kinematics.x_val), (kinematics.y_val+r*a*(math.sqrt(2))/2)+r, -(z+r*h), 3.25, vehicle_name="Drone2")
-        client.moveToPositionAsync(((kinematics.x_val)-r*a*(math.sqrt(2))/2)-r, kinematics.y_val, -(z+r*h), 3.25, vehicle_name="Drone3")
-        client.moveToPositionAsync((kinematics.x_val)+r, kinematics.y_val-r*a*(math.sqrt(2))/2, -(z+r*h), 3.25, vehicle_name="Drone4")
-        client.moveToPositionAsync(((kinematics.x_val)+r*a)-r, (kinematics.y_val+r*a)-r, -(z-r*h), 3.25, vehicle_name="Drone5")
-        client.moveToPositionAsync(((kinematics.x_val)-r*a)+r, (kinematics.y_val+r*a)-r, -(z-r*h), 3.25, vehicle_name="Drone6")
-        client.moveToPositionAsync(((kinematics.x_val)-r*a)-r, (kinematics.y_val-r*a)+r, -(z-r*h), 3.25, vehicle_name="Drone7")
-        client.moveToPositionAsync(((kinematics.x_val)+r*a)+r, (kinematics.y_val-r*a, -(z-r*h))+r, 3.25, vehicle_name="Drone8")
-        if ((abs(abs(kinematics.x_val)-abs(x)) < 3) and (abs(abs(kinematics.y_val)-abs(y)) < 3)):
+        kinematics = client.simGetGroundTruthKinematics(vehicle_name = "Lead")
+        client.moveToPositionAsync((kinematics.position.x_val)+r*a*(math.sqrt(2))/2, kinematics.position.y_val-r, (kinematics.position.z_val+r*h), 3.25, vehicle_name="Drone1")
+        client.moveToPositionAsync((kinematics.position.x_val), (kinematics.position.y_val+r*a*(math.sqrt(2))/2)+r, (kinematics.position.z_val+r*h), 3.25, vehicle_name="Drone2")
+        client.moveToPositionAsync(((kinematics.position.x_val)-r*a*(math.sqrt(2))/2)-r, kinematics.position.y_val, (kinematics.position.z_val+r*h), 3.25, vehicle_name="Drone3")
+        client.moveToPositionAsync((kinematics.position.x_val)+r, kinematics.position.y_val-r*a*(math.sqrt(2))/2, (kinematics.position.z_val+r*h), 3.25, vehicle_name="Drone4")
+        client.moveToPositionAsync(((kinematics.position.x_val)+r*a)-r, (kinematics.position.y_val+r*a)-r, (kinematics.position.z_val-r*h), 3.25, vehicle_name="Drone5")
+        client.moveToPositionAsync(((kinematics.position.x_val)-r*a)+r, (kinematics.position.y_val+r*a)-r, (kinematics.position.z_val-r*h), 3.25, vehicle_name="Drone6")
+        client.moveToPositionAsync(((kinematics.position.x_val)-r*a)-r, (kinematics.position.y_val-r*a)+r, (kinematics.position.z_val-r*h), 3.25, vehicle_name="Drone7")
+        client.moveToPositionAsync(((kinematics.position.x_val)+r*a)+r, (kinematics.position.y_val-r*a, (kinematics.position.z_val-r*h))+r, 3.25, vehicle_name="Drone8")
+        if ((abs(abs(kinematics.position.x_val)-abs(x)) < 3) and (abs(abs(kinematics.position.y_val)-abs(y)) < 3)):
             print("hit break")
             break
         time.sleep(0.1)
