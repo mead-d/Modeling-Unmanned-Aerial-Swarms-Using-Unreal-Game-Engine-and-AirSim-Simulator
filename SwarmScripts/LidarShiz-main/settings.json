@@ -1,0 +1,39 @@
+{
+  "SettingsVersion": 1.2,
+  "SimMode": "Multirotor",
+  "ClockSpeed": 1,
+  "Vehicles": {
+    "Drone1": {
+      "VehicleType": "SimpleFlight",
+      "X": 4,
+      "Y": 0,
+      "Z": -2,
+      "Sensors":{
+         "MyLidar1": {
+           "SensorType": 6,
+           "Enabled" : true,
+           "NumberOfChannels": 16,
+           "PointsPerSecond": 10000,
+           "X": 0, "Y": 0, "Z": -1,
+           "DrawDebugPoints": true
+        }
+      }
+    },
+    "Drone2": {
+      "VehicleType": "SimpleFlight",
+      "X": -4,
+      "Y": 0,
+      "Z": -2,
+      "Sensors":{
+         "MyLidar2": {
+           "SensorType": 6,
+            "Enabled" : true,
+            "NumberOfChannels": 16,
+             "PointsPerSecond": 10000,
+             "X": 0, "Y": 0, "Z": -1,
+             "DrawDebugPoints": true
+        }
+      }
+    }
+  }
+}
