@@ -1,3 +1,6 @@
+# Equation originally developed by John Mueller.
+# Modular form and generalized function developed by Dillon Mead.
+
 import airsim
 import math
 
