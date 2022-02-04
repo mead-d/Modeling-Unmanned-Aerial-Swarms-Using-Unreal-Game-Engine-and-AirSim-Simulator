@@ -1,24 +1,19 @@
-import setup_path
 import airsim
-
-import sys
 import math
 import time
-import argparse
-import pprint
-import numpy
 
-from .firstLidar import *
-#from .distance3D import *
+from .simpleDetection import *
 
-standOff = 10
+class collisionDetection:
 
-while lidarData >= standoff:
-  lidarData 
-  if (lidarData < standOff):
-    #intiate avoidence/break iteration
-    print ("Collision Detected)
-  	else:
-     #do nothing
-     print ("Safe")
-   time.sleep(1)
+    standOff = 10
+
+    while True:
+        if (simpleDetection < standOff):
+            #intiate avoidence/break iteration
+            print ("Collision Detected")
+        else:
+                #do nothing
+                print ("Safe")
+     
+        time.sleep(1)
