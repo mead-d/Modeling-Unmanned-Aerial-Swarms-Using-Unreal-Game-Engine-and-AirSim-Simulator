@@ -22,13 +22,13 @@ class simpleDetection:
         self.client.confirmConnection()
         self.client.enableApiControl(True)
 
- def execute(self):
+ def detectObject(self):
       
         objectDetected = False 
 
         #while objectDetected == False:
 
-        lidarData = self.client.getLidarData();
+        lidarData = self.client.getLidarData()
         if (len(lidarData.point_cloud) < 3):
            print("\tNo points received from Lidar data")
         else:
