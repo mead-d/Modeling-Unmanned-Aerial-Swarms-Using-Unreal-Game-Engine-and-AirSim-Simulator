@@ -1,4 +1,4 @@
-#  Written by Dillon Mead
+# Written by Dillon Mead
 
 
 # Singly Linked List
@@ -10,7 +10,7 @@ class WaypointList:
         self.head = self.tail = None
 
     # Add new waypoint to tail.
-    def addWayPoint(coord, speed):
+    def addWayPoint(self, coord, speed):
         if (self.head == self.tail == None):
             self.head = Node(coord, speed)
             self.tail = self.head
@@ -22,7 +22,7 @@ class WaypointList:
 
 
     # Insert new waypoint between visited nodes and next unvisited node. 
-    def insertWayPoint(coord, speed):
+    def insertWayPoint(self, coord, speed):
         if (self.head == self.tail == None):
             self.head = Node(coord, speed)
             self.tail = self.head
@@ -46,7 +46,7 @@ class WaypointList:
                 self.size += 1
 
     # Changes visited flag to True once waypoint is visited.
-    def visitWayPoint():
+    def visitWayPoint(self):
         cur = self.head
         
         # iterate to unvisited waypoint
