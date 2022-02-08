@@ -45,12 +45,24 @@ class WaypointList:
                 prev.next.next = cur
                 self.size += 1
 
+    # Returns first unvisited node
+    def validWayPoint(self):
+        cur = self.head
+
+        # iterate to unvisited waypoint
+        while(cur.visited is not False):
+            if(cur.next is not None):
+                cur = cur.next
+        
+        return cur
+
+
     # Changes visited flag to True once waypoint is visited.
     def visitWayPoint(self):
         cur = self.head
         
         # iterate to unvisited waypoint
-        while(cur.visited != False):
+        while(cur.visited is not False):
             if(cur.next is not None):
                 cur = cur.next
         
@@ -60,7 +72,7 @@ class Node:
 
     # constructor
     def __init__(self, coord, speed):
-        self.coord = coord
-        self.speed = speed
-        self.visited = False
+        self.coord = coord          # tuple of coordinates
+        self.speed = speed          # speed of UAV
+        self.visited = False        # If waypoint is already visited
         self.next = None
