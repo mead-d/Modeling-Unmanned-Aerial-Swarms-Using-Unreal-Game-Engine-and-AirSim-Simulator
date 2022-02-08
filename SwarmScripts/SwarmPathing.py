@@ -2,7 +2,7 @@ import airsim
 import WaypointList as wpl
 
 
-class SwarmPathing(wp1):
+class SwarmPathing(wpl):
     def pathTo(wpl):
         vNode = wpl.validWaypoint()
         coords = vNode.coord
