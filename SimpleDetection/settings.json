@@ -3,7 +3,7 @@
   "SimMode": "Multirotor",
   "ClockSpeed": 1,
   "Vehicles": {
-    "Drone1": {
+    "Lead": {
       "VehicleType": "SimpleFlight",
       "X": 4,
       "Y": 0,
@@ -12,33 +12,43 @@
         "MyLidar1": {
           "SensorType": 6,
           "Enabled": true,
-          "NumberOfChannels": 1,
-          "Range": 30,
+          "NumberOfChannels": 16,
+          "Range": 20,
           "PointsPerSecond": 10000,
-          "RotationsPerSecond": 10,
+          "RotationsPerSecond": 20,
+          "HorizontalFOVStart": 0,
+          "HorizontalFOVEnd": 180,
           "X": 0,
           "Y": 0,
           "Z": -1,
+          "Pitch": 0,
+          "Yaw": -85,
+          "DataFrame": "SensorLocalFrame",
           "DrawDebugPoints": true
         }
       }
     },
-    "Drone2": {
+    "Drone1": {
       "VehicleType": "SimpleFlight",
       "X": 1,
       "Y": 0,
       "Z": -2,
       "Sensors": {
-        "MyLidar1": {
-          "SensorType": 6,
+        "MyLidar2": {
+           "SensorType": 6,
           "Enabled": true,
-          "NumberOfChannels": 1,
-          "Range": 30,
+          "NumberOfChannels": 16,
+          "Range": 20,
           "PointsPerSecond": 10000,
-          "RotationsPerSecond": 10,
+          "RotationsPerSecond": 20,
+          "HorizontalFOVStart": 0,
+          "HorizontalFOVEnd": 180,
           "X": 0,
           "Y": 0,
           "Z": -1,
+          "Pitch": 0,
+          "Yaw": -85,
+          "DataFrame": "SensorLocalFrame",
           "DrawDebugPoints": true
         }
       }
