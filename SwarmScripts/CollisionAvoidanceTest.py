@@ -1,10 +1,93 @@
 import airsim
-import Swarming
+import numpy
+import Swarmer
+import time
+import CollisionDetection
+import WaypointList
+import SwarmPathing
+
+
 client = airsim.MultirotorClient()
 client.confirmConnection()
+Swarming = Swarmer.Swarmer()
+cd = CollisionDetection.CollisionDetection()
+wpl = WaypointList.WaypointList()
+wpl1 = WaypointList.WaypointList()
+SwarmPathing = SwarmPathing.SwarmPathing()
 
 d = len(client.simListSceneObjects(name_regex = 'Drone.*'))
 print("Number of drones: ", d)
+wpl.addWayPoint([20,20,-50],3)
+wpl.addWayPoint([-20,-20,-50],3)
+wpl1.addWayPoint([-20,-20,-50],3)
+wpl1.addWayPoint([20,20,-50],3)
+
+if d == 0:
+    client.enableApiControl(True, "Lead")
+    client.armDisarm(True, "Lead")
+    client.takeoffAsync(vehicle_name="Lead").join()
+    client.moveToZAsync(-50, 10,vehicle_name="Lead").join()
+
+    client.moveToPositionAsync(-200,-200,-50,3,vehicle_name = "Lead").join()
+    client.moveToZAsync(-20, 10,vehicle_name="Lead").join()
+    while True:
+
+        cd.collisionDetection("Lead",wpl,client)
+        client.moveToPositionAsync(150,150,-20,3, vehicle_name = "Lead")
+        time.sleep(0.1)
+
+    client.moveToPositionAsync(-150,-150,-5,3, vehicle_name = "Lead").join()
+
+    
+
+if d == 1:
+    client.enableApiControl(True, "Lead")
+    client.armDisarm(True, "Lead")
+    client.enableApiControl(True, "Drone1")
+    client.armDisarm(True, "Drone1")
+
+    client.takeoffAsync(vehicle_name="Lead")
+    client.takeoffAsync(vehicle_name="Drone1").join()
+
+    client.moveToZAsync(-50, 10,vehicle_name="Lead")
+    client.moveToZAsync(-50, 10,vehicle_name="Drone1").join()
+    while True:
+        SwarmPathing.pathTo(wpl,"Lead")
+        a = SwarmPathing.pathCheck(wpl,"Lead")
+        SwarmPathing.pathTo(wpl1,"Drone1")
+        b = SwarmPathing.pathCheck(wpl1,"Drone1")
+        time.sleep(0.1)
+        if (a == True and b == True):
+            break
+
+    time.sleep(5)
+
+    cd.collisionDetection("Lead")
+    cd.collisionDetection("Drone1")
+
+    while True:
+        SwarmPathing.pathTo(wpl,"Lead")
+        a = SwarmPathing.pathCheck(wpl,"Lead")
+        SwarmPathing.pathTo(wpl1,"Drone1")
+        b = SwarmPathing.pathCheck(wpl1,"Drone1")
+
+        if (a == True and b == True):
+            break
+
+
+
+    f1 = client.moveToZAsync(-0.1, 5,vehicle_name="Lead")
+    f2 = client.moveToZAsync(-0.1, 5,vehicle_name="Drone1")
+    f1.join()
+    f2.join()
+    f1 = client.landAsync(vehicle_name="Lead")
+    f2 = client.landAsync(vehicle_name="Lead")
+    f1.join()
+    f2.join()
+    client.armDisarm(False, "Lead")
+    client.armDisarm(False, "Drone1")
+    client.enableApiControl(False, "Lead")
+    client.enableApiControl(False, "Drone1")
 if d == 2:
     client.enableApiControl(True, "Lead")
     client.enableApiControl(True, "Drone1")
@@ -15,7 +98,7 @@ if d == 2:
 
 
     Swarming.formSwarm(d)
-   
+    
    
     f1 = client.moveToZAsync(-0.1, 5,vehicle_name="Lead")
     f2 = client.moveToZAsync(-0.1, 5,vehicle_name="Drone1")
