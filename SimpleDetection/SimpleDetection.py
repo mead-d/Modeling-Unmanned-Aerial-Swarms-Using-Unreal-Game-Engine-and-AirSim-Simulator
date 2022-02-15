@@ -15,7 +15,7 @@ import numpy
 class simpleDetection:
 
 #Used for testing
- def __testinit__(self):
+ def __init__(self):
 
         # connect to the AirSim simulator
         self.client = airsim.MultirotorClient()
