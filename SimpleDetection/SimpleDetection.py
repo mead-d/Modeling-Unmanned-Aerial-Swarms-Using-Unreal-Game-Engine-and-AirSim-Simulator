@@ -15,23 +15,21 @@ import numpy
 class simpleDetection:
 
 #Used for testing
- def __init__(self):
+ #def __init__(self):
 
         # connect to the AirSim simulator
-        self.client = airsim.MultirotorClient()
-        self.client.confirmConnection()
-        self.client.enableApiControl(True)
+        #self.client = airsim.MultirotorClient()
+        #self.client.confirmConnection()
+        #self.client.enableApiControl(True)
 
- def detectObject(self):
+ def detectObject(self,client):
       
         objectDetected = False 
 
         #while objectDetected == False:
 
-        lidarData = self.client.getLidarData()
-        if (len(lidarData.point_cloud) < 3):
-           print("\tNo points received from Lidar data")
-        else:
+        lidarData = client.getLidarData()
+        if (len(lidarData.point_cloud) >= 3):
             print("\tObject Detected!")
             objectDetected = True
                 
