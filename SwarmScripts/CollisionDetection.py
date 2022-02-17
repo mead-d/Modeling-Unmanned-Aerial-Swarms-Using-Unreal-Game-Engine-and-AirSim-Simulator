@@ -6,18 +6,20 @@ import AvoidanceAlg
 
 class CollisionDetection:
 
-    def collisionDetection(drone):
-
+    def collisionDetection(self,drone,wpl,client):
+        sd = SimpleDetection.simpleDetection()
+        AA = AvoidanceAlg.AvoidanceAlg()
         standOff = 10
 
-        while True:
-            if (simpleDetection()):
-                #intiate avoidance
-                rightTurnAvoid(drone)
-                print ("Collision Detected")
-     
-            time.sleep(0.1)
+#        while True:
+        if (sd.detectObject(client)):
+            #intiate avoidance
+            AA.rightTurnAvoid(wpl,drone,client)
+            print ("Collision Detected")
+        #time.sleep(0.1)
 
+            #if(sd.detectObject(client) == False):
+               # break
         # while True:
             # distanceArray = simpleDetection()
             # for i in distanceArray:

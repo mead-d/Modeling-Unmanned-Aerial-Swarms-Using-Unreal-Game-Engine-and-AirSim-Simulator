@@ -12,31 +12,23 @@ client.confirmConnection()
 Swarming = Swarmer.Swarmer()
 cd = CollisionDetection.CollisionDetection()
 wpl = WaypointList.WaypointList()
-wpl1 = WaypointList.WaypointList()
 SwarmPathing = SwarmPathing.SwarmPathing()
-
 d = len(client.simListSceneObjects(name_regex = 'Drone.*'))
 print("Number of drones: ", d)
-wpl.addWayPoint([20,20,-50],3)
-wpl.addWayPoint([-20,-20,-50],3)
-wpl1.addWayPoint([-20,-20,-50],3)
-wpl1.addWayPoint([20,20,-50],3)
+wpl.addWayPoint([-200,-200,-50],4)
+wpl.addWayPoint([-200,-200,-20],4)
+wpl.addWayPoint([150,150,-20],3)
 
 if d == 0:
     client.enableApiControl(True, "Lead")
     client.armDisarm(True, "Lead")
     client.takeoffAsync(vehicle_name="Lead").join()
     client.moveToZAsync(-50, 10,vehicle_name="Lead").join()
-
-    client.moveToPositionAsync(-200,-200,-50,3,vehicle_name = "Lead").join()
-    client.moveToZAsync(-20, 10,vehicle_name="Lead").join()
     while True:
-
         cd.collisionDetection("Lead",wpl,client)
-        client.moveToPositionAsync(150,150,-20,3, vehicle_name = "Lead")
+        SwarmPathing.pathCheck(wpl,"Lead",client)
+        SwarmPathing.pathTo(wpl,"Lead",client)
         time.sleep(0.1)
-
-    client.moveToPositionAsync(-150,-150,-5,3, vehicle_name = "Lead").join()
 
     
 
