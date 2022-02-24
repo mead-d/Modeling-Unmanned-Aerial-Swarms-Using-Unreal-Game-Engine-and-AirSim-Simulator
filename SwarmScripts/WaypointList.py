@@ -23,15 +23,22 @@ class WaypointList:
 
     # Insert new waypoint between visited nodes and next unvisited node. 
     def insertWayPoint(self, coord, speed):
+        cur = self.head
+
+        # If list is empty
         if (self.head == self.tail == None):
             self.head = Node(coord, speed)
             self.tail = self.head
             self.size += 1
+        # If list has only one node
+        elif (cur.next == None):
+            cur.next = Node(coord, speed)
+            self.tail = cur.next
+            self.size += 1
+        # 2 or more nodes in list
         else:
-            cur = self.head
-
             # iterate to unvisited waypoint
-            while(cur.visited != False):
+            while(cur.visited == True):
                 if (cur.next is not None):
                     prev = cur
                     cur = cur.next
