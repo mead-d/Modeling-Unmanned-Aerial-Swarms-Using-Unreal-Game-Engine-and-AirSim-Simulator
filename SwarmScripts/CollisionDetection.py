@@ -6,7 +6,7 @@ import AvoidanceAlg
 
 class CollisionDetection:
 
-    def collisionDetection(self,drone,wpl,client):
+    def collisionDetection(self, wpl, drone ,client):
         sd = SimpleDetection.simpleDetection()
         AA = AvoidanceAlg.AvoidanceAlg()
         standOff = 10
@@ -14,7 +14,7 @@ class CollisionDetection:
 #        while True:
         if (sd.detectObject(client)):
             #intiate avoidance
-            AA.rightTurnAvoid(wpl,drone,client)
+            AA.rightTurnAvoid(wpl, drone, client)
             print ("Collision Detected")
         #time.sleep(0.1)
 
