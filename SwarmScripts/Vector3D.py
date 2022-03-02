@@ -29,4 +29,4 @@ class Vector3D:
     # @Return: angle of vector in radians
     def vectorAngle(x_vector, y_vector):
 
-        return math.arctan(x_vector/y_vector)
+        return math.atan2(x_vector, y_vector) # Because of N.E.D. system in AirSim, x and y parameter is swapped.
