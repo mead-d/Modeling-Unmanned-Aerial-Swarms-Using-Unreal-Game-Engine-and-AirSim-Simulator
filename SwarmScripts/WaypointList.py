@@ -10,18 +10,24 @@ class WaypointList:
         self.head = self.tail = None
 
     # Add new waypoint to tail.
+    # @param: data attributes coordinate tuple and speed
+    # @return: void
     def addWayPoint(self, coord, speed):
+        # If list is empty
         if (self.head == self.tail == None):
             self.head = Node(coord, speed)
             self.tail = self.head
             self.size += 1
+        # else add to tail
         else:
             self.tail.next = Node(coord, speed)
             self.tail = self.tail.next
             self.size += 1
 
 
-    # Insert new waypoint between visited nodes and next unvisited node. 
+    # Insert new waypoint between visited nodes and next unvisited node.
+    # @param: data attributes coordinate tuple and speed
+    # @return: void
     def insertWayPoint(self, coord, speed):
         cur = self.head
 
@@ -31,7 +37,7 @@ class WaypointList:
             self.tail = self.head
             self.size += 1
         # If list has only one node
-        elif (cur.next == None):
+        elif (self.size == 1):
             cur.next = Node(coord, speed)
             self.tail = cur.next
             self.size += 1
@@ -53,11 +59,13 @@ class WaypointList:
                 self.size += 1
 
     # Returns first unvisited node
+    # @param: None
+    # @return: next unvisited waypoint in path
     def validWayPoint(self):
         cur = self.head
 
         # iterate to unvisited waypoint
-        while(cur.visited is not False):
+        while(cur.visited == True):
             if(cur.next is not None):
                 cur = cur.next
         
@@ -65,11 +73,13 @@ class WaypointList:
 
 
     # Changes visited flag to True once waypoint is visited.
+    # @param: None
+    # @return: void
     def visitWayPoint(self):
         cur = self.head
         
         # iterate to unvisited waypoint
-        while(cur.visited is not False):
+        while(cur.visited ==True):
             if(cur.next is not None):
                 cur = cur.next
         
