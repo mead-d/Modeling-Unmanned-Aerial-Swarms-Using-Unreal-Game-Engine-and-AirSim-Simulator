@@ -7,30 +7,32 @@ import Vector3D
 
 class AvoidanceAlg:
 
-    # basic avoidance. drone travels at 90 deg right for X distance.
+    # UAV avoids by right turn with set radius. Includes FAA Right-of-Way measures
     # @Param: waypointlist of acting drone, the drone object, obstacle to avoid as array of coordinates, and client object
     # @Return: void
     def rightTurnAvoid(self, wpl, drone, obstacle, client):
     
+        # vector3D module constructor
         v3D = Vector3D.Vector3D()
 
         radius = 5 # constraint for vector distance
-        new_speed = 5 # drone velocity
+        new_speed = 5 # drone velocity during avoidance
 
-        # determine drone position/ heading
+        # determine drone position/ heading from AirSim client
         droneState = client.getMultirotorState(vehicle_name = drone).kinematics_estimated
         velocity = droneState.linear_velocity.to_numpy_array()   
         drone_ypos = droneState.position.y_val
         drone_xpos = droneState.position.x_val
         drone_zpos = droneState.position.z_val
         
-        # vector components of obstacle vector
+        # vector components from UAV to obstacle
         objVector = v3D.vectorize(drone_xpos, drone_ypos, drone_zpos, obstacle[0], obstacle[1], obstacle[2])
 
-        # boolean if x xor y component is negative
-        negVector = objVector[0] < 0 != objVector[1] < 0
+        # boolean condition if x xor y component is negative
+        # negVector = objVector[0] < 0 != objVector[1] < 0
 
-        if negVector and v3D.vectorAngle(objVector[0], objVector[1]) > 95 * math.pi / 180:
+        # check if obstacle is converging from the left, with a bias of 5 degrees to the left.
+        if (objVector[0] < 0 != objVector[1] < 0) and (v3D.vectorAngle(objVector[0], objVector[1]) > 95 * math.pi / 180):
             # don't avoid for convergence from left
             dummy = 0 # dummy var. python is dumb and won't recognize "do nothing" statement
         else:
