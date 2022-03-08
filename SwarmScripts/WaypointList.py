@@ -8,41 +8,37 @@ class WaypointList:
     # constructor
     def __init__(self):
         self.head = self.tail = None
+        
 
     # Add new waypoint to tail.
-    # @param: data attributes coordinate tuple and speed
-    # @return: void
     def addWayPoint(self, coord, speed):
-        # If list is empty
         if (self.head == self.tail == None):
             self.head = Node(coord, speed)
             self.tail = self.head
             self.size += 1
-        # else add to tail
         else:
             self.tail.next = Node(coord, speed)
             self.tail = self.tail.next
             self.size += 1
 
 
-    # Insert new waypoint between visited nodes and next unvisited node.
-    # @param: data attributes coordinate tuple and speed
-    # @return: void
+    # Insert new waypoint between visited nodes and next unvisited node. 
     def insertWayPoint(self, coord, speed):
         cur = self.head
-
-        # If list is empty
         if (self.head == self.tail == None):
             self.head = Node(coord, speed)
             self.tail = self.head
             self.size += 1
-        # If list has only one node
-        elif (self.size == 1):
-            cur.next = Node(coord, speed)
+        elif (self.size < 2):
+            cur.next = Node(coord,speed)
             self.tail = cur.next
             self.size += 1
-        # 2 or more nodes in list
+        elif (cur.visited == False):
+            self.head = Node(coord,speed)
+            self.head.next = cur
+            self.size += 1
         else:
+
             # iterate to unvisited waypoint
             while(cur.visited == True):
                 if (cur.next is not None):
@@ -59,13 +55,11 @@ class WaypointList:
                 self.size += 1
 
     # Returns first unvisited node
-    # @param: None
-    # @return: next unvisited waypoint in path
     def validWayPoint(self):
         cur = self.head
 
         # iterate to unvisited waypoint
-        while(cur.visited == True):
+        while(cur.visited is not False):
             if(cur.next is not None):
                 cur = cur.next
         
@@ -73,13 +67,11 @@ class WaypointList:
 
 
     # Changes visited flag to True once waypoint is visited.
-    # @param: None
-    # @return: void
     def visitWayPoint(self):
         cur = self.head
         
         # iterate to unvisited waypoint
-        while(cur.visited ==True):
+        while(cur.visited is not False):
             if(cur.next is not None):
                 cur = cur.next
         

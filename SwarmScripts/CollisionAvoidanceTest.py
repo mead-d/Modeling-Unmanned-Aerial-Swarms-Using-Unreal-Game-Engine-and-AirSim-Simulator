@@ -5,6 +5,7 @@ import time
 import CollisionDetection
 import WaypointList
 import SwarmPathing
+import Vector3D 
 
 
 client = airsim.MultirotorClient()
@@ -12,12 +13,14 @@ client.confirmConnection()
 Swarming = Swarmer.Swarmer()
 cd = CollisionDetection.CollisionDetection()
 wpl = WaypointList.WaypointList()
+wpl1 = WaypointList.WaypointList()
 SwarmPathing = SwarmPathing.SwarmPathing()
+v3d = Vector3D.Vector3D()
 d = len(client.simListSceneObjects(name_regex = 'Drone.*'))
 print("Number of drones: ", d)
-wpl.addWayPoint([-200,-200,-50],4)
-wpl.addWayPoint([-200,-200,-20],4)
-wpl.addWayPoint([150,150,-20],3)
+wpl.addWayPoint([-200,0,-100],4)
+wpl1.addWayPoint([200,0,-100],4)
+
 
 if d == 0:
     client.enableApiControl(True, "Lead")
@@ -41,31 +44,17 @@ if d == 1:
     client.takeoffAsync(vehicle_name="Lead")
     client.takeoffAsync(vehicle_name="Drone1").join()
 
-    client.moveToZAsync(-50, 10,vehicle_name="Lead")
-    client.moveToZAsync(-50, 10,vehicle_name="Drone1").join()
+    client.moveToZAsync(-100, 10,vehicle_name="Lead")
+    client.moveToZAsync(-100, 10,vehicle_name="Drone1").join()
     while True:
-        SwarmPathing.pathTo(wpl,"Lead")
-        a = SwarmPathing.pathCheck(wpl,"Lead")
-        SwarmPathing.pathTo(wpl1,"Drone1")
-        b = SwarmPathing.pathCheck(wpl1,"Drone1")
+        cd.collisionDetection("Lead",wpl,client)
+        cd.collisionDetection("Drone1",wpl1,client)
+        SwarmPathing.pathCheck(wpl,"Lead",client)
+        SwarmPathing.pathCheck(wpl1,"Drone1",client)
+        SwarmPathing.pathTo(wpl,"Lead",client,v3d)
+        SwarmPathing.pathTo(wpl1,"Drone1",client,v3d)
         time.sleep(0.1)
-        if (a == True and b == True):
-            break
-
-    time.sleep(5)
-
-    cd.collisionDetection("Lead")
-    cd.collisionDetection("Drone1")
-
-    while True:
-        SwarmPathing.pathTo(wpl,"Lead")
-        a = SwarmPathing.pathCheck(wpl,"Lead")
-        SwarmPathing.pathTo(wpl1,"Drone1")
-        b = SwarmPathing.pathCheck(wpl1,"Drone1")
-
-        if (a == True and b == True):
-            break
-
+        
 
 
     f1 = client.moveToZAsync(-0.1, 5,vehicle_name="Lead")
@@ -73,7 +62,7 @@ if d == 1:
     f1.join()
     f2.join()
     f1 = client.landAsync(vehicle_name="Lead")
-    f2 = client.landAsync(vehicle_name="Lead")
+    f2 = client.landAsync(vehicle_name="Drone1")
     f1.join()
     f2.join()
     client.armDisarm(False, "Lead")
