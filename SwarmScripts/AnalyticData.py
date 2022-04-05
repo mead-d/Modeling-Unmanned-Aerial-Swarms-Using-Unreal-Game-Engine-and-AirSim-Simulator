@@ -11,12 +11,29 @@ class AnalyticData:
     #what point at which the avoidance manuver was initiated
     avoidancePoint = None
 
+    #detected obstacle distance from drone POV
+    objDist = None
+
+    #obstacle heading from the drone to the obstacle
+    objHeading = None
+
+    #sensor Range
+    sensorRange = None
+
+    #Standoff range
+    standoffRange = None
+
+
+
 
     #what avoidance rules were used
-    avoidanceRules = None
+    #avoidanceRules = None
 
     #used to repeat and identify randomized scenarios
-    seed = None
+    #seed = None
 
     #time used for simulation
-    time = None
+    #simTime = None
+
+    #time used for avoidance
+    #avoidanceTime = None
