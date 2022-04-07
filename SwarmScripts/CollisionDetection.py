@@ -8,7 +8,7 @@ import Vector3D
 
 class CollisionDetection:
 
-    def collisionDetection(self, wpl, drone ,client):
+    def collisionDetection(self,drone,wpl,client):
         sd = SimpleDetection.simpleDetection()
         AA = AvoidanceAlg.AvoidanceAlg()
         v3D = Vector3D.Vector3D()
@@ -34,19 +34,22 @@ class CollisionDetection:
                # break
 
         # while True:
-        lidarArray = sd.simpleDetection()
-        for i in lidarArray:
-            lidarPt = lidarArray[i]
-            distanceArray.append(v3D.calcDistance(lidarPt[0], lidarPt[1], lidarPt[2], drone_xpos, drone_ypos, drone_zpos))
-            # vector components from UAV to obstacle
-            objVector = v3D.vectorize(drone_xpos, drone_ypos, drone_zpos, lidarPt[0], lidarPt[1], lidarPt[2])
-            vectorArray.append(objVector)
+        lidarArray = sd.execute(client)
+        if (lidarArray is not None):
+            for i in lidarArray:
+                lidarPt = lidarArray
+                distanceArray.append(v3D.calcDistance(lidarPt[0], lidarPt[1], lidarPt[2], drone_xpos, drone_ypos, drone_zpos))
+                # vector components from UAV to obstacle
+                objVector = v3D.vectorize(drone_xpos, drone_ypos, drone_zpos, lidarPt[0], lidarPt[1], lidarPt[2])
+                objVector = v3D.vectorize(drone_xpos, drone_ypos, drone_zpos, lidarPt[0], lidarPt[1], lidarPt[2])
+                vectorArray.append(objVector)
 
         for i in distanceArray:
-            vector = vectorArray[i]
+            vector = vectorArray[0]
             # check if obstacle is within range and converging from the left, with a reduction of 5 degrees to the left.
-            if (distanceArray[i] < standOff) and (v3D.vectorAngle(vector[0], vector[1]) > 95 * math.pi / 180):
-                AA.rightTurnAvoid(wpl, [drone_xpos, drone_ypos, drone_zpos, velocity[0], velocity[1]])
+            #and (v3D.vectorAngle(vector[0], vector[1]) > 95 * math.pi / 180)
+            if ((i-200) < standOff):
+                AA.rightTurnAvoid(wpl, [drone_xpos, drone_ypos, drone_zpos, velocity[0], velocity[1]],client,drone)
                 print("Possible Collision Detected")
                 break
             # time.sleep(0.1)
