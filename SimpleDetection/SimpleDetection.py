@@ -11,6 +11,7 @@ import time
 import argparse
 import pprint
 import numpy
+import AnalyticData
 
 class simpleDetection:
 
@@ -46,6 +47,7 @@ class simpleDetection:
                 points = self.parse_lidarData(lidarData)
                 print("\tDanger, possible collsion detected")
                 print("\Time_stamp: %d number_of_points: %d" % (lidarData.time_stamp, len(points)))
+                AnalyticData.set_objDist(points)
                 #print("\t\tlidar position: %s" % (pprint.pformat(lidarData.pose.position)))
                 #print("\t\tlidar orientation: %s" % (pprint.pformat(lidarData.pose.orientation)))
                 print("\t\t PointCloud Data: %s" % (pprint.pformat(points)))
