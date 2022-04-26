@@ -5,8 +5,8 @@ import time
 import CollisionDetection
 import WaypointList
 import SwarmPathing
-import Vector3D 
-import threading
+import Vector3D
+import concurrent.futures
 
 client1 = airsim.MultirotorClient()
 client2 = airsim.MultirotorClient()
@@ -24,8 +24,8 @@ SwarmPathing = SwarmPathing.SwarmPathing()
 v3d = Vector3D.Vector3D()
 #d = len(client.simListSceneObjects(name_regex = 'Drone.*'))
 print("Number of drones: ", d)
-wpl1.addWayPoint([-200,0,-100],4)
-wpl2.addWayPoint([200,0,-100],4)
+wpl1.addWayPoint([200,0,-100],1)
+wpl2.addWayPoint([200,0,-100],5)
 
 
 if d == 0:
@@ -55,6 +55,9 @@ if d == 0:
     
 
 if d == 2:
+
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers= 10)
+
     client1.enableApiControl(True, "Lead")
     client1.armDisarm(True, "Lead")
     client2.enableApiControl(True, "Drone1")
@@ -86,48 +89,39 @@ if d == 2:
         drone_pos1.append(drone_velocity1[0])
         drone_pos1.append(drone_velocity1[1])
 
-        print("Drone1 ", droneState1)
-        print("Drone2 ", droneState2)
+        #print("Drone1 ", droneState1)
+        #print("Drone2 ", droneState2)
 
-        th1 = threading.Thread(target = cd.collisionDetection,args = ["Lead", wpl1,client1,drone_pos1,"MyLidar1"])
-        th2 = threading.Thread(target = cd.collisionDetection,args = ["Lead", wpl2,client2,drone_pos2,"MyLidar2"])
-        th1.start()
-        th2.start()
+        #cd.collisionDetection("Lead", wpl1, client1, drone_pos1, "MyLidar1")
+        cd.collisionDetection("Drone1", wpl2, client2, drone_pos2, "MyLidar2")
+        #th1 = executor.submit(cd.collisionDetection, ["Lead", wpl1, client1, drone_pos1, "MyLidar1"]) #threading.Thread(target = cd.collisionDetection,args = ["Lead", wpl1, client1, drone_pos1, "MyLidar1"])
+        #th2 = executor.submit(cd.collisionDetection, ["Drone1", wpl2, client2, drone_pos2, "MyLidar2"]) #threading.Thread(target = cd.collisionDetection,args = ["Drone1", wpl2, client2, drone_pos2, "MyLidar2"])
 
-        avoid_state1 = th1.run()
-        #avoid_state1 = cd.collisionDetection("Lead", wpl1,client1,drone_pos1,"MyLidar1")
-        print("Drone1 ", avoid_state1)
-
-        avoid_state2 = th2.run()
-        #avoid_state2 = cd.collisionDetection("Drone1", wpl2, client2,drone_pos2,"MyLidar2")
-        print("Drone2 ", avoid_state2)
-        
-
-        
-        if ((bool(avoid_state1) is not False) and (bool(avoid_state2) is not False)):
-            print("Drones 1 and 2 avoiding")
-            f1 = client1.moveToPositionAsync(avoid_state1[0], avoid_state1[1], avoid_state1[2], avoid_state1[3], vehicle_name= "Lead")
-            f2 = client2.moveToPositionAsync(avoid_state2[0], avoid_state2[1], avoid_state2[2], avoid_state2[3], vehicle_name= "Drone1")
-            f1.join()
-            f2.join()
-        elif bool(avoid_state2) is not False:
-            print("Drone 2 avoiding")
-            f1 = client2.moveToPositionAsync(avoid_state2[0], avoid_state2[1], avoid_state2[2], avoid_state2[3], vehicle_name= "Drone1")
-            f1.join()
-        elif bool(avoid_state1) is not False:
-            print("Drone 1 avoiding")
-            f1 = client1.moveToPositionAsync(avoid_state1[0], avoid_state1[1], avoid_state1[2], avoid_state1[3], vehicle_name= "Lead")
-            f1.join()
+        #if ((bool(avoid_state1) is not False) and (bool(avoid_state2) is not False)):
+            #print("Drones 1 and 2 avoiding")
+            #f1 = client1.moveToPositionAsync(avoid_state1[0], avoid_state1[1], avoid_state1[2], avoid_state1[3], vehicle_name= "Lead")
+            #f2 = client2.moveToPositionAsync(avoid_state2[0], avoid_state2[1], avoid_state2[2], avoid_state2[3], vehicle_name= "Drone1")
+            #f1.join()
+            #f2.join()
+        #elif bool(avoid_state2) is not False:
+            #print("Drone 2 avoiding")
+            #f1 = client2.moveToPositionAsync(avoid_state2[0], avoid_state2[1], avoid_state2[2], avoid_state2[3], vehicle_name= "Drone1")
+            #f1.join()
+        #elif bool(avoid_state1) is not False:
+            #print("Drone 1 avoiding")
+            #f1 = client1.moveToPositionAsync(avoid_state1[0], avoid_state1[1], avoid_state1[2], avoid_state1[3], vehicle_name= "Lead")
+            #f1.join()
 
         time.sleep(1)
-        SwarmPathing.pathCheck(wpl1, "Lead", client1)
-        SwarmPathing.pathCheck(wpl2, "Drone1", client2)
-        SwarmPathing.pathTo(wpl1,"Lead",client1,v3d,drone_pos1)
-        SwarmPathing.pathTo(wpl2,"Drone1",client2,v3d,drone_pos2)
-        
-        th1._stop 
-        th2._stop
-        
+        SwarmPathing.pathCheck(wpl1, "Lead", drone_pos1)
+        SwarmPathing.pathCheck(wpl2, "Drone1", drone_pos2)
+        SwarmPathing.pathTo(wpl1, "Lead", client1, v3d, drone_pos1)
+        SwarmPathing.pathTo(wpl2, "Drone1", client2, v3d, drone_pos2)
+        #th3 = executor.submit(SwarmPathing.pathCheck, [wpl1, "Lead", client1])
+        #th4 = executor.submit(SwarmPathing.pathCheck, [wpl2, "Drone1", client2])
+        #th5 = executor.submit(SwarmPathing.pathTo, [wpl1, "Lead", client1, v3d, drone_pos1])
+        #th6 = executor.submit(SwarmPathing.pathTo, [wpl2, "Drone1", client2, v3d, drone_pos2])
+                
 
 
     f1 = client1.moveToZAsync(-0.1, 5,vehicle_name="Lead")

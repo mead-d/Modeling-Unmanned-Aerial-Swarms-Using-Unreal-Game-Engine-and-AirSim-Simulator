@@ -8,25 +8,25 @@ import Vector3D
 
 class CollisionDetection:
 
-    def collisionDetection(self,drone,wpl,client):
+    # Includes FAA Right-of-Way measures
+    #
+    #
+    def collisionDetection(self, drone_name, wpl, client, drone_pos, lidarName):
         sd = SimpleDetection.simpleDetection()
         AA = AvoidanceAlg.AvoidanceAlg()
         v3D = Vector3D.Vector3D()
         distanceArray= []
         vectorArray = []
         standOff = 20
+        collidedDist = 10
+        avoid_state = []
 
-        droneState = client.getMultirotorState(vehicle_name = drone).kinematics_estimated
-        velocity = droneState.linear_velocity.to_numpy_array()   
-        drone_ypos = droneState.position.y_val
-        drone_xpos = droneState.position.x_val
-        drone_zpos = droneState.position.z_val
 
 
 #        while True:
         #if (sd.detectObject(client)):
             #intiate avoidance
-            #AA.rightTurnAvoid(wpl, drone, client)
+            #AA.rightTurnAvoid(wpl, drone_name, client)
             #print ("Collision Detected")
         #time.sleep(0.1)
 
@@ -34,22 +34,29 @@ class CollisionDetection:
                # break
 
         # while True:
-        lidarArray = sd.execute(client)
+        lidarArray = sd.execute(client, lidarName, drone_name)
         if (lidarArray is not None):
             for i in lidarArray:
                 lidarPt = lidarArray
-                distanceArray.append(v3D.calcDistance(lidarPt[0], lidarPt[1], lidarPt[2], drone_xpos, drone_ypos, drone_zpos))
+                distanceArray.append(v3D.calcDistance(lidarPt[0], lidarPt[1], lidarPt[2], drone_pos[0], drone_pos[1], drone_pos[2]))
                 # vector components from UAV to obstacle
-                objVector = v3D.vectorize(drone_xpos, drone_ypos, drone_zpos, lidarPt[0], lidarPt[1], lidarPt[2])
-                objVector = v3D.vectorize(drone_xpos, drone_ypos, drone_zpos, lidarPt[0], lidarPt[1], lidarPt[2])
-                vectorArray.append(objVector)
+                vectorArray.append(v3D.vectorize(drone_pos[0], drone_pos[1], drone_pos[2], lidarPt[0], lidarPt[1], lidarPt[2]))
+        print(drone_name, " received sensor data.")
 
+        print("DistanceArray: ", distanceArray)
+        # Is obstacle distance less than avoidance range?
         for i in distanceArray:
-            vector = vectorArray[0]
+            # vector = vectorArray[0]
             # check if obstacle is within range and converging from the left, with a reduction of 5 degrees to the left.
-            #and (v3D.vectorAngle(vector[0], vector[1]) > 95 * math.pi / 180)
-            if ((i-200) < standOff):
-                AA.rightTurnAvoid(wpl, [drone_xpos, drone_ypos, drone_zpos, velocity[0], velocity[1]],client,drone)
-                print("Possible Collision Detected")
-                break
-            # time.sleep(0.1)
+            # and (v3D.vectorAngle(vectorArray[0], vectorArray[1]) > 95 * math.pi / 180)
+            distance = i-200
+            if ((distance) <= standOff):
+                print(drone_name, "'s obstacle distance: ", distance)
+                if ((distance) <= collidedDist):
+                    print("-----VEHICLE COLLISION!!!-----")
+
+                print("Possible Collision Detected.")
+                AA.rightTurnAvoid(wpl, client, drone_pos, drone_name)
+
+        
+        # time.sleep(0.1)
