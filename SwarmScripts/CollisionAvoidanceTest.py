@@ -7,6 +7,7 @@ import WaypointList
 import SwarmPathing
 import Vector3D
 import concurrent.futures
+import AnalyticData
 
 client1 = airsim.MultirotorClient()
 client2 = airsim.MultirotorClient()
@@ -71,23 +72,21 @@ if d == 2:
 
     while True:
 
-        droneState2 = client2.getMultirotorState(vehicle_name = "Drone1").kinematics_estimated
-        drone_pos2 = []
-        drone_pos2.append(droneState2.position.x_val)
-        drone_pos2.append(droneState2.position.y_val)
-        drone_pos2.append(droneState2.position.z_val)
-        drone_velocity2 = droneState2.linear_velocity.to_numpy_array()
-        drone_pos2.append(drone_velocity2[0])
-        drone_pos2.append(drone_velocity2[1])
-
-        droneState1 = client1.getMultirotorState(vehicle_name = "Lead").kinematics_estimated
-        drone_pos1 = []
-        drone_pos1.append(droneState1.position.x_val)
-        drone_pos1.append(droneState1.position.y_val)
-        drone_pos1.append(droneState1.position.z_val)
-        drone_velocity1 = droneState1.linear_velocity.to_numpy_array()
-        drone_pos1.append(drone_velocity1[0])
-        drone_pos1.append(drone_velocity1[1])
+        droneState = client1.getMultirotorState(vehicle_name = "Lead").kinematics_estimated
+        drone_pos = []
+        drone_pos.append(droneState.position.x_val)
+        drone_pos.append(droneState.position.y_val)
+        drone_pos.append(droneState.position.z_val)
+        AnalyticData.set_position(drone_pos)
+        drone_head = []
+        drone_head.append(droneState.orientation.x_val)
+        drone_head.append(droneState.orientation.y_val)
+        drone_head.append(droneState.orientation.z_val)
+        AnalyticData.set_heading(drone_head)
+        drone_velocity = droneState.linear_velocity.to_numpy_array()
+        drone_pos.append(drone_velocity[0])
+        drone_pos.append(drone_velocity[1])
+        AnalyticData.set_speed(drone_velocity)
 
         #print("Drone1 ", droneState1)
         #print("Drone2 ", droneState2)
