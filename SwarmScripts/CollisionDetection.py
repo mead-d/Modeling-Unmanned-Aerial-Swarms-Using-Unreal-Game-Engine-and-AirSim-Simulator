@@ -5,6 +5,7 @@ import time
 import SimpleDetection
 import AvoidanceAlg
 import Vector3D
+import AnalyticData
 
 class CollisionDetection:
 
@@ -20,7 +21,8 @@ class CollisionDetection:
         standOff = 20
         collidedDist = 10
         avoid_state = []
-
+        
+        AnalyticData.set_avoidanceRange(standOff)
 
 
 #        while True:
@@ -54,7 +56,9 @@ class CollisionDetection:
                 print(drone_name, "'s obstacle distance: ", distance)
                 if ((distance) <= collidedDist):
                     print("-----VEHICLE COLLISION!!!-----")
-
+                    
+                    AnalyticData.set_avoidancePoint(drone_pos)
+                        
                 print("Possible Collision Detected.")
                 AA.rightTurnAvoid(wpl, client, drone_pos, drone_name)
 
