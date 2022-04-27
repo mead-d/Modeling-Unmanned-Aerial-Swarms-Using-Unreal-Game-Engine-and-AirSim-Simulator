@@ -8,6 +8,7 @@ import SwarmPathing
 import Vector3D
 import concurrent.futures
 import AnalyticData
+import csv
 
 client1 = airsim.MultirotorClient()
 client2 = airsim.MultirotorClient()
@@ -28,7 +29,8 @@ print("Number of drones: ", d)
 wpl1.addWayPoint([200,0,-100],1)
 wpl2.addWayPoint([200,0,-100],5)
 
-
+header = ['Position', 'Heading', 'Velocity']
+   
 if d == 0:
 
     client1.enableApiControl(True, "Lead")
@@ -78,15 +80,26 @@ if d == 2:
         drone_pos.append(droneState.position.y_val)
         drone_pos.append(droneState.position.z_val)
         AnalyticData.set_position(drone_pos)
+        pos_data = drone_pos
         drone_head = []
         drone_head.append(droneState.orientation.x_val)
         drone_head.append(droneState.orientation.y_val)
         drone_head.append(droneState.orientation.z_val)
         AnalyticData.set_heading(drone_head)
+        head_data = drone_head
         drone_velocity = droneState.linear_velocity.to_numpy_array()
         drone_pos.append(drone_velocity[0])
         drone_pos.append(drone_velocity[1])
         AnalyticData.set_speed(drone_velocity)
+        velocity_data = drone_velocity
+        data = [pos_data, head_data, velocity_data]
+        
+        with open('testData.csv', 'w', newline='') as f:
+            writer = csv.writer(f)
+            
+            writer.writerow(header)
+            
+            writer.writerows(data)
 
         #print("Drone1 ", droneState1)
         #print("Drone2 ", droneState2)
