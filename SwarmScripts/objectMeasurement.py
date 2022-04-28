@@ -9,6 +9,9 @@ import numpy
 # Orient drone pair at bottom of object at closest end along one dimension. (ex: y1 = y2, z1 = z2, x1 = 0 x2 = 10)
 
 class objectMeasurement:
+    if __name__ == "__main__":
+        main()
+
     def __init__(self):
         return super().__init__()
 
@@ -137,6 +140,7 @@ class objectMeasurement:
     @staticmethod
     def getSlice(drone1,drone2):
         
+        # Drone kinematics state from airsim
         d1_pos = drone1.getMultirotorState().kinematics_estimated.position
         d2_pos = drone2.getMultirotorState().kinematics_estimated.position
         
@@ -159,3 +163,5 @@ class objectMeasurement:
         if slice < 0:
             slice = 0
             return slice
+
+    # def main():

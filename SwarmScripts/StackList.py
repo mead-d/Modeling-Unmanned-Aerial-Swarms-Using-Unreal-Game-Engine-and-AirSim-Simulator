@@ -1,5 +1,13 @@
 # Written by Dillon Mead
 
+
+class Node:
+    # constructor
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+
 # Doubly linked list implemented as stack. Top of stack is list tail
 class StackList:
     size = 0
@@ -47,11 +55,3 @@ class StackList:
         while cur is not None:
             print(cur.val, end = ' ')
             cur = cur.next
-            
-
-class Node:
-    # constructor
-    def __init__(self, data):
-        self.data = data
-        self.next = None
-        self.prev = None
